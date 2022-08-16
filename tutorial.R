@@ -24,13 +24,13 @@ data(exampleAudio2)
 
 # Write example waves to example audio directory
 tuneR::writeWave(object = exampleAudio1,
-                 filename = 'example-audio-directory/Rivendell_20210623_113602.wav')
+                 filename = 'audio-directory/Rivendell_20210623_113602.wav')
 tuneR::writeWave(object = exampleAudio2,
-                 filename = 'example-audio-directory/Rivendell_20210623_114602.wav')
+                 filename = 'audio-directory/Rivendell_20210623_114602.wav')
 
 # Run all audio data in a directory through BirdNET -------------------------------------------------------------------------
-X <- birdnet_analyzer(audio.directory = 'C:/Users/JKauphusman/Desktop/Scripts/Bird_Scanner/example-audio-directory',
-                 results.directory = 'C:/Users/JKauphusman/Desktop/Scripts/Bird_Scanner/example-results-directory',
+X <- birdnet_analyzer(audio.directory = 'C:/Users/JKauphusman/Desktop/Scripts/Bird_Scanner/audio-directory',
+                 results.directory = 'C:/Users/JKauphusman/Desktop/Scripts/Bird_Scanner/results-directory',
                  birdnet.directory = 'C:/Users/JKauphusman/OneDrive - Logan Simpson/Documents/BirdNET-Analyzer-main',
                  lat = 46.09924,
                  lon = -123.8765)

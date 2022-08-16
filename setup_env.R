@@ -7,3 +7,4 @@ library(reticulate)
 use_condaenv(condaenv = "pybirdanalyze", required = TRUE)
 
 birdnet_model <- "C:/Users/JKauphusman/OneDrive - Logan Simpson/Documents/BirdNET-Analyzer-main"
+
