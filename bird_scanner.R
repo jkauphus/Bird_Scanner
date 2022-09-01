@@ -6,36 +6,42 @@ library(NSNSDAcoustics)
 library(tidyverse)
 library(glue)
 
-# 2. Load in the .wav files collected from the audiomoth at the folder level
+# 2. Load in the .wav files collected from the audiomoth at the folder level -----------------------------------------------
 
 ## Note that the .wav files need to abide to the format = SITEID_YYYYMMDD_HHMMSS 
 ## and Audiomoth only writes it out as YYYYMMDD_HHMMSS so run the following script
 
-## TO DO!!
-
-input_folder <- "C:/Users/JKauphusman/Desktop/audio_tester"
+filepath <- "N:/projects/2022/225394C215139 NTUA Lechee to Antelope Biological Survey (1.BIO)/Biology/Site Visit/Audio Files/20220823"
+SiteName <- "LecheetoAntelop"
+#source("file_renamer.R")
 
 ## Designate output folder
 
-output_folder <- "C:/Users/JKauphusman/Desktop/Scripts/Bird_Scanner/results-directory"
+output <- glue("{filepath}/", "results-directory", sep = "/")
 
-#3. Where did you deploy the device?
+#3. Where did you deploy the device? --------------------------------------------------------------------------------
 
 # Web Mercator Please!!
-latitude <- 33.2666
-longitude <- -111.8690
+## Find the Coordinates 'https://www.google.com/maps/', will make this more responsive in the future
 
-#3. Run the wav files through the Birdnet-Analyzer CNN
-birdnet_analyzer(audio.directory = input_folder,
-                      results.directory = output_folder,
+latitude <- 36.8689
+longitude <- -111.4394
+
+#3. Run the wav files through the Birdnet-Analyzer CNN -------------------------------------------------------------
+birdnet_analyzer(audio.directory = filepath,
+                      results.directory = output,
                       birdnet.directory = birdnet_model,
                       lat = latitude,
                       lon = longitude,
                       min.conf = 0.3)
 
-# 4. Format the raw results into a data table 
-birdnet_format(results.directory = output_folder,
+# 4. Format the raw results into a data table --------------------------------------------------------------------- 
+birdnet_format(results.directory = output,
                timezone = 'MST') # Double Check due to timezone changes
 
-results_table <- birdnet_gather(results.directory = output_folder,
+results_table <- birdnet_gather(results.directory = output,
                   formatted = TRUE)
+
+#5. Save the results to an excel table for easy use --------------------------------------------------------------
+library(openxlsx)
+write_xlsx(results_table, glue("{output}/results_table.xlsx"))
