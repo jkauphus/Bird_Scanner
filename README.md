@@ -7,3 +7,13 @@ These scripts and gui are to develop an R ecosystem and eventual application to 
 These scripts are modified on the NSNSDAcoutics R package that leverages the Bird-Net tensorflow model to extract avian calls through wav files in a very streamline and intuative manor.
 
 Main scripts will batch run the bird-net model to analyze multiple wav files and output a table with the predicts species within each wave file analyzed.
+
+@article{kahl2021birdnet,
+  title={BirdNET: A deep learning solution for avian diversity monitoring},
+  author={Kahl, Stefan and Wood, Connor M and Eibl, Maximilian and Klinck, Holger},
+  journal={Ecological Informatics},
+  volume={61},
+  pages={101236},
+  year={2021},
+  publisher={Elsevier}
+}
