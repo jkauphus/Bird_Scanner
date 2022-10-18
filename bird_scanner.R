@@ -11,9 +11,9 @@ library(glue)
 ## Note that the .wav files need to abide to the format = SITEID_YYYYMMDD_HHMMSS 
 ## and Audiomoth only writes it out as YYYYMMDD_HHMMSS so run the following script
 
-filepath <- "N:/projects/2022/225394C215139 NTUA Lechee to Antelope Biological Survey (1.BIO)/Biology/Site Visit/Audio Files/20220823"
-SiteName <- "LecheetoAntelop"
-#source("file_renamer.R")
+filepath <- "N:/projects/2022/225347C215139 NTUA Tolani Lake Biological Survey (1.BIO)/Biology/Site Visit/Notes/Recordings/20220811"
+SiteName <- "TolaniLake"
+source("file_renamer.R")
 
 ## Designate output folder
 
@@ -24,8 +24,8 @@ output <- glue("{filepath}/", "results-directory", sep = "/")
 # Web Mercator Please!!
 ## Find the Coordinates 'https://www.google.com/maps/', will make this more responsive in the future
 
-latitude <- 36.8689
-longitude <- -111.4394
+latitude <- 35.60031
+longitude <- -111.0301
 
 #3. Run the wav files through the Birdnet-Analyzer CNN -------------------------------------------------------------
 birdnet_analyzer(audio.directory = filepath,
@@ -44,4 +44,4 @@ results_table <- birdnet_gather(results.directory = output,
 
 #5. Save the results to an excel table for easy use --------------------------------------------------------------
 library(openxlsx)
-write_xlsx(results_table, glue("{output}/results_table.xlsx"))
+write.xlsx(results_table, glue("{output}/results_table.xlsx"))

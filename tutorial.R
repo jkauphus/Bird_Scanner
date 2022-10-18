@@ -40,12 +40,12 @@ X <- birdnet_analyzer(audio.directory = 'C:/Users/JKauphusman/Desktop/Scripts/Bi
 
 # Function to Format the Data -----------------------------------------------------------------------------------------------
 
-birdnet_format(results.directory = 'example-results-directory',
+birdnet_format(results.directory = 'results-directory',
                timezone = 'GMT')
 
 # Gather formatted BirdNET results ------------------------------------------------------------------------------------------
 formatted.results <- birdnet_gather(
-  results.directory = 'example-results-directory',
+  results.directory = 'results-directory',
   formatted = TRUE)
 
 # Gather unformatted (raw) BirdNET results
@@ -55,7 +55,7 @@ raw.results <- birdnet_gather(
 
 # Verify Results of a particular Species
 
-### Create a random sample of three detections to verify
+### Create a random sample of three detection to verify
 set.seed(4)
 to.verify <- formatted.results[common_name == "Swainson's Thrush"][sample(.N, 3)]
 
