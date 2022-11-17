@@ -1,9 +1,10 @@
 # This script is to build out the Birdnet-analyzer functions in R from the data collected from the Audiomoth
 
-# 1. Load Libraries and dependancies---------------------------------------------
+# 1. Load Libraries and dependencies---------------------------------------------
 source("./setup_env.R")
 library(NSNSDAcoustics)
 library(tidyverse)
+library(openxlsx)
 library(glue)
 
 # 2. Load in the .wav files collected from the audiomoth at the folder level -----------------------------------------------
@@ -11,8 +12,8 @@ library(glue)
 ## Note that the .wav files need to abide to the format = SITEID_YYYYMMDD_HHMMSS 
 ## and Audiomoth only writes it out as YYYYMMDD_HHMMSS so run the following script
 
-filepath <- "N:/projects/2022/225347C215139 NTUA Tolani Lake Biological Survey (1.BIO)/Biology/Site Visit/Notes/Recordings/20220811"
-SiteName <- "TolaniLake"
+filepath <- "//lsdnassrv/ndrive/projects/2022/225532C215139 NTUA Nazlini Biological Survey/Biology/Site Visit/Audio"
+SiteName <- "Nazlini"
 source("file_renamer.R")
 
 ## Designate output folder
@@ -24,8 +25,8 @@ output <- glue("{filepath}/", "results-directory", sep = "/")
 # Web Mercator Please!!
 ## Find the Coordinates 'https://www.google.com/maps/', will make this more responsive in the future
 
-latitude <- 35.60031
-longitude <- -111.0301
+latitude <- 35.902625
+longitude <- -109.444607
 
 #3. Run the wav files through the Birdnet-Analyzer CNN -------------------------------------------------------------
 birdnet_analyzer(audio.directory = filepath,
@@ -43,5 +44,4 @@ results_table <- birdnet_gather(results.directory = output,
                   formatted = TRUE)
 
 #5. Save the results to an excel table for easy use --------------------------------------------------------------
-library(openxlsx)
-write.xlsx(results_table, glue("{output}/results_table.xlsx"))
+write.xlsx(results_table, glue("{filepath}/results_table.xlsx"))
