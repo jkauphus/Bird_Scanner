@@ -16,4 +16,3 @@ Main scripts will batch run the bird-net model to analyze multiple wav files and
   pages={101236},
   year={2021},
   publisher={Elsevier}
-}
