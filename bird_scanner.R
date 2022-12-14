@@ -12,7 +12,7 @@ library(glue)
 ## Note that the .wav files need to abide to the format = SITEID_YYYYMMDD_HHMMSS 
 ## and Audiomoth only writes it out as YYYYMMDD_HHMMSS so run the following script
 
-filepath <- "//lsdnassrv/ndrive/projects/2022/225532C215139 NTUA Nazlini Biological Survey/Biology/Site Visit/Audio"
+filepath <- "C:/Users/JKauphusman/OneDrive - Logan Simpson/Documents/audio_moth/BirdFeederp4"
 SiteName <- "Nazlini"
 source("file_renamer.R")
 
@@ -25,8 +25,8 @@ output <- glue("{filepath}/", "results-directory", sep = "/")
 # Web Mercator Please!!
 ## Find the Coordinates 'https://www.google.com/maps/', will make this more responsive in the future
 
-latitude <- 35.902625
-longitude <- -109.444607
+latitude <- 33.264587
+longitude <- -111.869099
 
 #3. Run the wav files through the Birdnet-Analyzer CNN -------------------------------------------------------------
 birdnet_analyzer(audio.directory = filepath,
