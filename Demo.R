@@ -14,9 +14,7 @@ library(glue)
 ## Note that the .wav files need to abide to the format = SITEID_YYYYMMDD_HHMMSS 
 ## and Audiomoth only writes it out as YYYYMMDD_HHMMSS so run the following script
 
-filepath <- "C:/Users/JKauphusman/OneDrive - Logan Simpson/Documents/audio_moth/BirdFeederp3/demo"
-SiteName <- "BirdFeeder"
-source("file_renamer.R")
+filepath <- "C:/Users/jkauphusman/Desktop/test"
 
 ## Designate output folder
 
@@ -31,9 +29,11 @@ latitude <- 33.264587
 longitude <- -111.869099
 
 #3. Run the wav files through the Birdnet-Analyzer CNN -------------------------------------------------------------
+
 birdnet_analyzer(audio.directory = filepath,
                  results.directory = output,
                  birdnet.directory = birdnet_model,
+                 use.week = TRUE,
                  lat = latitude,
                  lon = longitude,
                  min.conf = 0.5)
