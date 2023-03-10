@@ -2,7 +2,9 @@
 .Rhistory
 .Rapp.history
 *.txt
-*.wav
+
+/archieve
+/stats
 
 # Session Data files
 .RData

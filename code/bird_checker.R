@@ -1,7 +1,7 @@
 # Bird checker - script to check the classifiers to see its real time accuracy
 
 # 1. libraries
-source("./setup_env.R")
+source("./code/setup_env.R")
 library(NSNSDAcoustics)
 library(tidyverse)
 library(glue)
@@ -30,7 +30,7 @@ ver.lib <- c('y', 'n', 'unsure')
 # Verify detections
 birdnet_verify(data = to.verify,
                verification.library = ver.lib,
-               audio.directory = audiodirectory,
+               audio.directory = filepath,
                results.directory = output,
                overwrite = TRUE, 
                play = TRUE,

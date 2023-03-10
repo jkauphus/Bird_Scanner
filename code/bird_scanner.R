@@ -1,7 +1,7 @@
 # This script is to build out the Birdnet-analyzer functions in R from the data collected from the Audiomoth
 
 # 1. Load Libraries and dependencies---------------------------------------------
-source("./setup_env.R")
+source("./code/setup_env.R")
 library(NSNSDAcoustics)
 library(tidyverse)
 library(openxlsx)
@@ -13,8 +13,8 @@ library(glue)
 ## and Audiomoth only writes it out as YYYYMMDD_HHMMSS so run the following script
 
 filepath <- "C:/Users/jkauphusman/Desktop/test"
-SiteName <- "Nazlini"
-source("file_renamer.R")
+#SiteName <- "Nazlini"
+#source("file_renamer.R")
 
 ## Designate output folder
 
