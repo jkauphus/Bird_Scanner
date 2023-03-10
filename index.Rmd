@@ -312,3 +312,42 @@ bird_verify(verify)
 # now check the outputs in the checker folder
 ```
 
+Here is the example of the audio segment of the first predicted House Finch call
+
+```{r Verify Model, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+audio_player <- tags$audio(
+  src = "./checker/1_Haemorhous mexicanus_SMM07526_20221213_090202.wav",
+  type = "audio/wav",
+  controls = NA
+)
+audio_player
+```
+
+As you can see the model predicted correctly. If you wanted further verification, using the `bird_checker.R` script in the code folder you can output the spectrograms of the predicted audio segment using the `bird_spec` function. This function will create spectrograms for all the verify species you have aggregated and output the spectrograms in .png files in the `spectrograms` folder.
+
+```{r}
+# Read in the bird_verify function
+source("./code/bird_spec.R")
+# execute the function to the sub-table of house finch calls
+bird_spec(verify)
+# now check the outputs in the checker folder
+```
+
+And there is the first prediction of the house finch in a spectrogram with the blue box highlighting when the model made the prediction.
+
+![](spectrograms/1_Haemorhous mexicanus_SMM07526_20221213_090202.wav.png){width="350"}
+
+Before you run `bird_checker.R` again, make sure to delete the wav and png files in both the checker and spectrograms folder.
+
+# Final Thoughts
+
+With that, I leave you with a step-by-step tutorial of the Bird-Scanner workflow, which will give you everything you need to set up your workflow with the <a href="https://github.com/jkauphus/Bird_Scanner"> Bird-Scanner Repository</a>.
+
+I hope you will find the great opportunity of using BirdNet for your avian species including the use of this workflow for various avian ESA species surveys.
+
+If you have any questions feel free to leave a comment in the issues section of the repository or contact me directly.
+
+
+
+
+

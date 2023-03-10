@@ -2,7 +2,7 @@
 .Rhistory
 .Rapp.history
 *.txt
-
+*.xlsx
 /archieve
 /stats
 

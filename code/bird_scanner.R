@@ -12,7 +12,7 @@ library(glue)
 ## Note that the .wav files need to abide to the format = SITEID_YYYYMMDD_HHMMSS 
 ## and Audiomoth only writes it out as YYYYMMDD_HHMMSS so run the following script
 
-filepath <- "C:/Users/jkauphusman/Desktop/test"
+filepath <- "C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data"
 #SiteName <- "Nazlini"
 #source("file_renamer.R")
 
@@ -46,4 +46,4 @@ results_table <- birdnet_gather(results.directory = output,
                   formatted = TRUE)
 
 #5. Save the results to an excel table for easy use --------------------------------------------------------------
-write.xlsx(results_table, glue("{filepath}/results_table.xlsx"))
+write.xlsx(results_table, "./table_output/results_table.xlsx")

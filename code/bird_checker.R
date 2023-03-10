@@ -1,48 +1,36 @@
-# Bird checker - script to check the classifiers to see its real time accuracy
+# Bird checker - script to check the classifiers to see if the model is accruately predicting species
 
 # 1. libraries
-source("./code/setup_env.R")
-library(NSNSDAcoustics)
 library(tidyverse)
-library(glue)
 library(readxl)
-library(writexl)
+library(glue)
 
-# link original wavefile folder
-filepath <- "N:/projects/2022/225188C215378 NTUA 14 Homesites Technical Studies (1.BIO)/Biology/Site Visit/Roderick Begay/Audio Analysis"
-audiodirectory <-glue("{filepath}/audio")
-output <- glue("{filepath}/results-directory")
-
-# Load in table
-table_filepath <- glue("{filepath}/results_table.xlsx")
-results <- read_excel(glue("{table_filepath}"), sheet = 1)
+# Load in results table from the Birdnet session------------------------------
+results <- read_excel("./table_output/results_table.xlsx", sheet = 1)
 
 ### What species or observation do you want to verify?
-set.seed(4)
-species <- "Ladder-backed Woodpecker"
-
-to.verify <- results %>% 
+species <- "House Finch"
+## subset the table
+verify <- results %>% 
   filter(common_name == glue("{species}"))
 
-# Create a verification library for this species
-ver.lib <- c('y', 'n', 'unsure')
+# Check the audio segments of the BirdNet prediction results in wav audio format
+# Read in the bird_verify function
+source("./code/bird_spec.R")
 
-# Verify detections
-birdnet_verify(data = to.verify,
-               verification.library = ver.lib,
-               audio.directory = filepath,
-               results.directory = output,
-               overwrite = TRUE, 
-               play = TRUE,
-               frq.lim = c(0, 12),
-               buffer = 1,
-               box.col = 'blue',
-               spec.col = monitoR::gray.3())
+# Verify detections in the checker folder-------------------------------------
+bird_spec(verify)
+### CHECK RESULTS IN THE Checker folder#################################
 
-# Check that underlying files have been updated with user verification
-# In the Main Project Directory you will find the parsed out audio-files to review.
+# Check the audio segments of the BirdNet prediction results in spectrogram format
+# Read in the bird_verify function
+source("./code/bird_spec.R")
 
-### For some reason, its a little buggy and won't re-write the directory, will need to fix this issue later 
-dat <- birdnet_gather(results.directory = output,
-                      formatted = TRUE)
-dat[!is.na(verify)]
+# verify detections in the spectrograms folder
+bird_spec(verify)
+### CHECK RESULTS IN THE Spectrograms folder
+
+##################
+#Delete Results for both the checker and spectrograms folder before running bird_checker again
+##################
+# 
