@@ -36,7 +36,7 @@ birdnet_analyzer(audio.directory = filepath,
                  use.week = TRUE,
                  lat = latitude,
                  lon = longitude,
-                 min.conf = 0.3)
+                 min.conf = 0.75)
 
 # 4. Format the raw results into a data table --------------------------------------------------------------------- 
 birdnet_format(results.directory = output,
