@@ -5,7 +5,8 @@
 *.xlsx
 /archieve
 /stats
-
+bird_scanner_working.R
+bird_checker_working.R
 # Session Data files
 .RData
 

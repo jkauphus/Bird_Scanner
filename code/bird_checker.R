@@ -16,10 +16,10 @@ verify <- results %>%
 
 # Check the audio segments of the BirdNet prediction results in wav audio format
 # Read in the bird_verify function
-source("./code/bird_spec.R")
+source("./code/bird_verify.R")
 
 # Verify detections in the checker folder-------------------------------------
-bird_spec(verify)
+bird_verify(verify)
 ### CHECK RESULTS IN THE Checker folder#################################
 
 # Check the audio segments of the BirdNet prediction results in spectrogram format
