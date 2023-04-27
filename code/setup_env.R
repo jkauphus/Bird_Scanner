@@ -6,8 +6,9 @@ library(reticulate)
 # Set-up conda env
 use_condaenv(condaenv = "pybirdanalyze", required = TRUE)
 
+# The NDNS Package requires birdNET to be saved in the documents folder
 birdnet_model <- "C:/Users/JKauphusman/OneDrive - Logan Simpson/Documents/BirdNET-Analyzer-main"
-
+  
 # Info for when the conda environment does not upload properly
 ## in the anaconda terminal run the following
             #1. conda create -n pybirdanalyze python=3.7

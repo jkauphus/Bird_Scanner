@@ -1,0 +1,8 @@
+filepath,start,end,scientific_name,common_name,confidence,lat,lon,week,overlap,sensitivity,min_conf,species_list,model
+C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_090202.wav,18.0,21.0,Haemorhous mexicanus,House Finch,0.9594,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
+C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_090202.wav,36.0,39.0,Haemorhous mexicanus,House Finch,0.8328,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
+C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_090202.wav,6.0,9.0,Haemorhous mexicanus,House Finch,0.9548,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
+C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_090202.wav,66.0,69.0,Haemorhous mexicanus,House Finch,0.8793,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
+C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_090202.wav,81.0,84.0,Haemorhous mexicanus,House Finch,0.9696,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
+C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_090202.wav,9.0,12.0,Haemorhous mexicanus,House Finch,0.9121,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
+C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_090202.wav,99.0,102.0,Haemorhous mexicanus,House Finch,0.9104,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite

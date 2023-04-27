@@ -1,103 +1,47 @@
-#load package
-library(tuneR)
-library(seewave)
+# Script to create a function to improve the quality of the spectrogram outputs
+
 library(ggplot2)
+library(umap)
+library(seewave)
+library(tuneR)
+library(phonTools)
+library(signal)
+library(warbleR)
 
-# Write it out once, than create the function or loop
-#audio <- readWave(glue("{verify$filepath[1]}"))
-#start_time <- sum(verify$start[1]-5)
-#end_time <- sum(verify$end[1]+5)
-# pre-reqs
-#frq.lim = c(0, 12)
-#spec.col =  monitoR::gray.3()
-#box.col = 'blue'
-#check.sp <- monitoR:::spectro(wave = audio) # monitoR:::
-#which.frq.bins <- which(check.sp$freq >= frq.lim[1] &
-#                          check.sp$freq <= frq.lim[2])
-#Spectrogram
-#reclen <- length(audio@left)/audio@samp.rate
-#fft.data <- monitoR:::spectro(wave = audio)
-#trec <- fft.data$time
-#frec <- fft.data$freq
-#arec <- fft.data$amp
-#frec <- frec[which.frq.bins]
-#arec <- arec[which.frq.bins, ]
-# For plotting, save object to help label hh:mm:ss on x-axis
-#trec.times <- as.ITime(trec)
-#time.lab <- 'Time in recording (hh:mm:ss)'
-#t.step <- trec[2] - trec[1]
-#true.times.in.rec <- seq(from = start_time, to = end_time, by = t.step)[1-length(trec)]
-# Set up the graphics device
-#saver<-glue("./spectrograms/{verify$scientific_name[1]}_{verify$recordingID[1]}.png")
-#png(saver)
-# Plot
-#par(mfrow = c(1,1), mar = c(3,3,2,1), mgp = c(2,1,0))
-#image(x = trec, y = frec, z = t(arec), col = spec.col,
-#xlab = time.lab, ylab = "Frequency (kHz)", xaxt = "n",
-#bty = 'n', axes = FALSE,
-#main = paste0(verify$common_name[1] , ' [Conf. = ',
-#              round(verify$confidence[1], 2), ']'))
-
-# Add a buffer box around the 3 second clip
-#xleft <- trec[which.min(abs(true.times.in.rec - verify$start[1]))]
-#xright <- trec[which.min(abs(true.times.in.rec - verify$end[1]))]
-##ylwr <- min(frec)
-#yupr <- max(frec)
-#polygon(x = c(xleft, xleft, xright, xright),
-#        y = c(ylwr, yupr, yupr, ylwr), border = box.col)
-#axis(2, at = pretty(frec), labels = pretty(frec))
-#axis(1, at = pretty(trec),
-#     labels = as.ITime(pretty(true.times.in.rec))[1:length(pretty(trec))])
+# grab the first name
+#audio <- tuneR::readWave(glue("{verify$filepath[1]}"))
+#start_time <- sum(verify$start[1]-1)
+#end_time <- sum(verify$end[1]+1)
+#trim <- cutw(audio, from = start_time, to = end_time, output = 'Wave')
+#png(filename = "./spectrograms/output.png")
+#par(mar = c(4.1, 4.4, 4.1, 1.9), xaxs="i", yaxs="i")
+#spec <- seewave::spectro(trim, fftw = TRUE, grid = TRUE, osc = TRUE, 
+#                         flim=c(0,8), main = paste0("\n", "\n", verify$common_name[1] , ' [Conf. = ',round(verify$confidence[1], 2), ']')) #listen = TRUE)
 #dev.off()
+## 
+## ggspectro
+#seewave::ggspectro(trim, fftw = TRUE, grid = TRUE,flim = c(0,8), f = 24000, tlab = "Time (s)",
+#          flab = "Frequency (kHz)", alab = "Amplitude\n(dB)\n",)
+
+# Now Converting the code into the function for bird_checker.R as the new bird_spec fucntion
 
 spectro <- function(x){
   audio <- readWave(glue("{x$filepath}"))
-  start_time <- sum(x$start -5)
-  end_time <- sum(x$end +5)
-  # pre-reqs
-  frq.lim = c(0, 12)
-  spec.col =  monitoR::gray.3()
-  box.col = 'blue'
-  check.sp <- monitoR:::spectro(wave = audio) # monitoR:::
-  which.frq.bins <- which(check.sp$freq >= frq.lim[1] &
-                            check.sp$freq <= frq.lim[2])
+  start_time <- sum(x$start -1)
+  end_time <- sum(x$end +1)
   
-  #Spectrogram Info
-  reclen <- length(audio@left)/audio@samp.rate
-  fft.data <- monitoR:::spectro(wave = audio)
-  trec <- fft.data$time
-  frec <- fft.data$freq
-  arec <- fft.data$amp
-  frec <- frec[which.frq.bins]
-  arec <- arec[which.frq.bins, ]
-  # For plotting, save object to help label hh:mm:ss on x-axis
-  trec.times <- as.ITime(trec)
-  time.lab <- 'Time in recording (hh:mm:ss)'
-  t.step <- trec[2] - trec[1]
-  true.times.in.rec <- seq(from = start_time, to = end_time, by = t.step)[1-length(trec)]
-  # Set up the graphics device
-  saver<-glue("./spectrograms/{x$uniqueID}_{x$scientific_name}_{x$recordingID}.png")
-  png(saver)
-  # Plot
-  par(mfrow = c(1,1), mar = c(3,3,2,1), mgp = c(2,1,0))
-  image(x = trec, y = frec, z = t(arec), col = spec.col,
-        xlab = time.lab, ylab = "Frequency (kHz)", xaxt = "n",
-        bty = 'n', axes = FALSE,
-        main = paste0(x$common_name , ' [Conf. = ',
-                      round(x$confidence, 2), ']'))
+  #Trim wav file to call when the call was predicted at
+  seg <- cutw(audio, from = start_time, to = end_time, output = 'Wave')
   
-  # Add a buffer box around the 3 second clip
-  xleft <- trec[which.min(abs(true.times.in.rec - x$start))]
-  xright <- trec[which.min(abs(true.times.in.rec - x$end))]
-  ylwr <- min(frec)
-  yupr <- max(frec)
-  polygon(x = c(xleft, xleft, xright, xright),
-          y = c(ylwr, yupr, yupr, ylwr), border = box.col)
-  axis(2, at = pretty(frec), labels = pretty(frec))
-  axis(1, at = pretty(trec),
-       labels = as.ITime(pretty(true.times.in.rec))[1:length(pretty(trec))])
+  # settup output for spectrogram with ocsillogram to be saved into the spectrogram folder
+  png(filename = glue("./spectrograms/{x$uniqueID}_{x$scientific_name}_{x$recordingID}.png"))
+  par(mar = c(4.1, 4.4, 4.1, 1.9), xaxs="i", yaxs="i")
+  
+  # plot spectrogram with 
+  spec <- seewave::spectro(seg, fftw = TRUE, grid = TRUE, osc = TRUE, 
+                           flim=c(0,8), main = paste0("\n", "\n", x$common_name, ' [Conf. = ',x$confidence, ']')) #listen = TRUE)
   dev.off()
-  }
+}
 
 bird_spec <-function(df){
   uniqueID <- seq(1, nrow(df))
@@ -106,3 +50,5 @@ bird_spec <-function(df){
     spectro(df[i,])
   }
 }
+  
+

@@ -1,0 +1,2 @@
+"recordingID","filepath","start","end","scientific_name","common_name","confidence","lat","lon","week","overlap","sensitivity","min_conf","species_list","model","verify","timezone"
+"SMM07526_20221213_110000.wav","C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_110000.wav",39,42,"Dryobates pubescens","Downy Woodpecker",0.924,33.2736,-111.8298,50,0,1,0.75,"None","BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite",NA,"MST"
