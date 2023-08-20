@@ -1,5 +1,0 @@
-filepath,start,end,scientific_name,common_name,confidence,lat,lon,week,overlap,sensitivity,min_conf,species_list,model
-C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_100202.wav,3.0,6.0,Haemorhous mexicanus,House Finch,0.9299,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
-C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_100202.wav,36.0,39.0,Sialia mexicana,Western Bluebird,0.8629,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
-C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_100202.wav,51.0,54.0,Haemorhous mexicanus,House Finch,0.9417,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
-C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/data/SMM07526_20221213_100202.wav,60.0,63.0,Haemorhous mexicanus,House Finch,0.8896,33.2736,-111.8298,50,0.0,1.0,0.75,None,BirdNET_GLOBAL_2K_V2.1_Model_FP32.tflite
