@@ -6,9 +6,8 @@ library(reticulate)
 # Set-up conda env
 use_condaenv(condaenv = "pybirdanalyze", required = TRUE)
 
-# The NDNS Package requires birdNET to be saved in the documents folder
-#birdnet_model <- "C:/Users/JKauphusman/OneDrive - Logan Simpson/Documents/BirdNET-Analyzer-main"
-  
+# To run the scripts you need to create and activate a conda environment
+
 # Info for when the conda environment does not upload properly
 ## in the anaconda terminal run the following
             #1. conda create -n pybirdanalyze python=3.7
@@ -17,4 +16,4 @@ use_condaenv(condaenv = "pybirdanalyze", required = TRUE)
             #4. pip install tensorflow
             #5. pip install librosa
             #6. pip install numpy==1.20
-# Now remember to paste in both the ebird.JSON list and checkpoints folder from the BirdNET-Analyzer-main folder
+            #7. pip install birdnetlib

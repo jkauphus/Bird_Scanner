@@ -13,9 +13,9 @@ output:
 # Packages Used
 library(knitr)
 library(webshot)
-library(NSNSDAcoustics)
 library(tidyverse)
 library(openxlsx)
+library(readxl)
 library(glue)
 library(htmltools)
 ```
@@ -53,9 +53,9 @@ $~$
 
 A) Deploy Autonomous Recording Units (ARUs) into the field of study.
 
-B) Download the audio recordings to the computer, and convert the wav and/or mp3 files to "SITEID_YYYYMMDD_HHMMSS" format. 
+B) Download the audio recordings to the computer
 
-C) Set-up BirdNET with the <a href="https://github.com/nationalparkservice/NSNSDAcoustics"> NSNSDAcoustics package</a> developed by Cathleen Balantic with the National Parks Service.
+C) Set-up BirdNET with the <a href="https://github.com/joeweiss/birdnetlib/tree/main"> birdnetlib conda package</a>.
 
 D) Run your modified version of the "bird_scanner.R" R script from the <a href="https://github.com/jkauphus/Bird_Scanner"> Bird-Scanner Repository</a>.
 
@@ -105,36 +105,17 @@ Currently, I have only deployed Bird-Scanner at 12 locations across the Navajo N
 
 # 4. Download Audio Data
 
-To download the wav files from the ARU, plug the micro-SD card from the device into your computer, and transfer the files over into a folder of your choice (personally, I have a folder in my Documents folder that holds all my recordings based on each recording effort). Another alternative would be to save them under the data folder in the `Bird-Scanner` repository (refer to section 5).
+To download the wav files from the ARU, plug the micro-SD card from the device into your computer, and transfer the files over into a folder of your choice (personally, I would save them under the data folder in the `Bird-Scanner` repository (refer to section 5).
 
-$~$
-EX:) `C:\Users\jkauphusman\Documents\Recordings\Birdfeeder`
-$~$
+# 5. BirdNET and birdnetlib
 
-Now, to run Bird-Scanner, you need to rename your files into this format `SITEID_YYYYMMDD_HHMMSS`, likely based on the device you are using your files should already include the date metadata format (ex: 20220806_140730) or if you are using the Wildlife Acoustic Mini your files will already be labeled like this `SMM07526_20221213_090202.wav`. To run Bird-Scanner, it is important that each file has a site label followed by the date, otherwise the bird_scanner.R script will not run. If your files are labeled the Wildlife Acoustic format proceed to the next step, otherwise, you will need to implement a  site label (ex: `Birdfeeder_20220806_140730.wav`). If you don't want to sit and rename each wav file, I have a script I developed in this repository `./code/file_renamer.R` which should give you a great jumping off point to auto-rename the files to your liking.
+To set up BirdNET on your laptop, the minimum requirements you will need is a general understanding of conda environments and how they interact with `r-reticulate package`, which I will walk you through. I will try to make this process as simple as possible, but reach out to me if you get stuck. One of the issues with BirdNET is that it was originally designed to run results on one file at a time, tailored to be run in the windows terminal, and therefore, lacks the data management power that R clearly as a researcher application. So to bring the best of both worlds, I chose to develop my workflow with R leveraging the great <b>birdnetlib</b> conda package. 
 
-# 5. BirdNET and NSNSDAcoustics
-
-To set up BirdNET on your laptop, the minimum requirements you will need is a general understanding of conda environments and how they interact with `r-reticulate package`, which I will walk you through. I will try to make this process as simple as possible, but reach out to me if you get stuck. One of the issues with BirdNET is that it will only run results on one file at a time, must be run in terminal, and lacks the data management power that R clearly has the edge over. So to bring the best of both worlds, I chose to develop my workflow with R leveraging the great <b>NSNSDA Acoustics</b> R package. 
-
-Below, I will show you my process on how to set up BirdNET to run with this repository, but I highly suggest you to read through the <a href="https://github.com/nationalparkservice/NSNSDAcoustics"> NSNSDAcoustics package</a> tutorial information since we will be heavily using this package to  run BirdNET on our recordings.
+Below, I will show you my process on how to set up BirdNET to run with this repository.
 
 $~$
 
-<b>A)</b> First, you will need to download the <a href="https://github.com/kahst/BirdNET-Analyzer"> BirdNET Analyzer Repository</a>, unsure how to do that, click the "Code" button on the repository's github page and then select download zip. From there just drag and unzip the folder into your <b>documents</b> folder. Warning you must have this file in your documents folder on your pc for this workflow to run properly with the NSNSDAcoustics package.
-
-$~$
-
-![](img/zip-download.png){width="800"}
-
-
-$~$
-
-From there place the BirdNet Analyzer folder into your documents folder on your computer
-
-`C:\Users\Username\Documents\`
-
-<b>B)</b> Go ahead and download <a href="https://www.anaconda.com/"> Anaconda</a> for Windows. Following the download you will need to open the "Anaconda Prompt" terminal.
+<b>A)</b> First, Go ahead and download <a href="https://www.anaconda.com/"> Anaconda</a> for Windows. Following the download you will need to open the "Anaconda Prompt" terminal.
 
 ![](img/conda_prompt.png){width="200"}
 
@@ -155,23 +136,13 @@ This will create an installer to install the needed BirdNET extensions more smoo
 `pip install tensorflow`
 `pip install librosa`
 `pip install numpy==1.20`
+`pip install birdnetlib`
+`pip install pandas`
+`pip install xlsxwriter`
+`pip install datetime`
 
 Those last few commands will download the extensions so that we can start running BirdNET
 
-$~$
-
-<b>C)</b> Now we need to move to files from the BirdNET folder to the conda environment. 
-
-Open up the BirdNET-Analyzer folder and copy two files
-
-* the `checkpoints` folder
-* `eBird_taxonomy_codes_2021E.json` file
-
-From there, open up the conda environment folder, the path should be something like this 
-
-`C:\Users\Username\Anaconda3\envs\pybirdanalyze`
-
-![](img/conda_env.png){width="1000"}
 $~$
 
 And with that you should be done with the hardest part of setting up Bird-Scanner.
@@ -184,24 +155,15 @@ If you do not understand github and its uses with R watch [[**this quick video.*
 
 I would recommend downloading bird-scanner into you documents folder. From there, open RStudio and open the `Bird_Scanner.Rproj`.
 
-In the repository, under the "code" folder open the "setup_env.R" file and change the paths for the
+In the repository, under the "code" folder open the "setup_env.R" file and change the path for the
 
 `Sys.setenv(RETICULATE_PYTHON = "C:/Users/jkauphusman/Anaconda3/envs/pybirdanalyze/python.exe")`
 
-and
-
-`birdnet_model <- "C:/Users/JKauphusman/OneDrive - Logan Simpson/Documents/BirdNET-Analyzer-main"`
-
-to the paths on your computer, based on your username, of where your conda env and BirdNet Analyzer folders are located. Then run the script (hint you need to install the following R packages if you have not already). Remember to keep this "setup_env.R" script within your repository so you can call to it when you run "bird_scanner.R".
+to the paths on your computer, based on your username, of where your conda env is located. Then run the script.. Remember to keep this "setup_env.R" script within your repository so you can call to it when you run "bird_scanner.R".
 
 Now install the following packages so that you have no issues with the Bird-Scanner-Workflow:
 
 `install.packages(c("reticulate", "tidyverse", "devtools", "glue", "openxlsx", "readxl", "tuneR", "ggplot2", "umap", "seewave", "phonTools", "signal", "warbleR"))`
-
-Now run the following commands to download the `NSNSDAcoustics r package`
-
-`library(devtools)`
-`devtools::install_github('nationalparkservice/NSNSDAcoustics')`
 
 If there are no errors, you should be able to run the `bird_scanner.R` script.
 
@@ -210,7 +172,7 @@ If there are no errors, you should be able to run the `bird_scanner.R` script.
 Below, is an example and tutorial to show you how Bird-Scanner is operated following the collection of audio files from your deployed ARU. When I run my calls following a field session, I will use the `bird_scanner.R` script, found within the code folder of the Bird-Scanner Repository, which will auto-ID bird calls within the recordings, and output the results in a excel table format that will include: species, time of call, model prediction percentage, and when in the recording the model heard the call. For each session with `bird_scanner.R` all I change is the filepaths, location information, and confidence thresholds.
 
 $~$
-If you remember at this point of the workflow, we have collected audio files at my bird feeder and loaded the wav files to my computer. After that we verified the files were named in the proper format `SITEID_YYYYMMDD_HHMMSS`.
+If you remember at this point of the workflow, we have collected audio files at my bird feeder and loaded the wav files to my computer. After that we verified the files contained the proper date fromat   `YYMMDD_HHMMSS`.
 
 Here is an example of one of those recordings at the bird-feeder:
 
@@ -232,7 +194,6 @@ files <- list.files("./data/", recursive = TRUE, full.names = FALSE)
 file_names <- data.frame(files[1:5])
 knitr::kable(file_names, format = "html", caption = "Recording Filenames")
 ```
-As you can see, the files are in the needed format: `SITEID_YYYYMMDD_HHMMSS`, but with my Song Meter Micro, I have the ARUs name (SMM07526) instead of the site name, but it should run the model fine with no issue.
 
 Referring to the `bird-scanner.R` script, I will walk through the necessary steps to run BirdNET on our gathered recordings.
 
@@ -249,8 +210,6 @@ source("./code/setup_env.R")
 path <- "C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/"
 # Load in the file path of where the data is located, you will need the entire path
 data <- glue("{path}data")
-# Designate the output folder
-output <- glue("{path}", "results-directory")
 ```
 
 Now, you need to identify where your ARUs were deployed, which the coordinates will need to be in lat-long format. The BirdNET model will use these coordinates to reduce the amount of species it can use to predict based on the range data for birds identified by the Cornell Labs of Ornithology and eBird.
@@ -262,75 +221,51 @@ longitude <- -111.829824
 Another prerequisite is to define the confidence threshold that you want BirdNet to abide to. There are various strengths and weaknesses for a higher or lower threshold, so if you want to reduce false positives or false negatives based on your analysis you'll need to decide what threshold is best for you. I have designated 70% to decrease false positives so that when the model is making a prediction it is very accurate.
 
 ```{r conf information, echo=TRUE}
-conf <- 0.75
+conf <- 0.7
 ```
 
 With those prerequisites out of the way, we can run the audio files through the BirdNET Model.
 
 ```{r BirdNet Model, echo=TRUE, message=FALSE, warning=FALSE}
-birdnet_analyzer(audio.directory = data,
-                 results.directory = output,
-                 birdnet.directory = birdnet_model,
-                 use.week = TRUE,
-                 lat = latitude,
-                 lon = longitude,
-                 min.conf = conf)
+source("./code/bird_analyzer.R")
+bird_analyzer(data=data, latitude=latitude, longitude=longitude, conf=conf)
 ```
 
-One item that is important to review following the results from BirdNET is the pool of potential species the model is predicting from based on the distribution information of avian species that occur in a given area, which is pre-trained into BirdNet from eBird and Cornell Labs information. Run the following code to extract the specific species list used during the BirdNet run based on the coordinates provided. Here are the potential species that can occur by my bird feeder (i.e., the greater Phoenix, AZ area). FYI, this is a long list so you can scroll really fast to the next code chunk.
+If you are using this repository, the results would be saved in the `results_tables` folder. In the newly outputed excel file it will be labeled `birdNET_results_DATE.xlsx`, and contain two sheets, the first titled `Detections` will be the birdNET predicted results based on the provided audio data, the second sheet titled `SpeciesList` will be the potential species (i.e., the greater Phoenix, AZ area) that would occur based on the geographic location from the provided audio files.
 
-```{r Potential Species list}
-source("./code/species_list.R")
-spec_list <- spec_list()
-spec_list
-```
-
-Now we need to aggregate the BirdNET output into one master table for us to interpret
-
-```{r message=FALSE, warning=FALSE}
-birdnet_format(results.directory = output,
-               timezone = 'MST') # Double Check due to timezone changes
-
-results_table <- birdnet_gather(results.directory = output,
-                  formatted = TRUE)
-```
-
-To export the data in an excel table that contains both the BirdNET results and the potential species, run the following lines of code with the `openxlsx` library to create an excel workbook with both tables of information on each sheet: 
-
-`workbook <- createWorkbook()`
-`results <- addWorksheet(workbook, "BirdNET Results")`
-`Spec <- addWorksheet(workbook, "Potential Species in Project")`
-`writeData(workbook, Spec, spec_list)`
-`writeData(workbook, results, results_table)`
-`saveWorkbook(workbook, glue("./results_table/{SiteName}_results_table.xlsx"), overwrite = TRUE)`
-
-Below are the first 5 results from BirdNET from our Bird-feeder recordings.
+Below are the first 5 predictions from BirdNET from our Bird-feeder recordings.
 
 ```{r Table, echo=FALSE}
-knitr::kable(results_table[1:5])
+table_name <- "birdNET_results_2023-08-23.xlsx"
+results <- read_excel(glue("./results_tables/{table_name}"), sheet = 1)
+knitr::kable(results[1:5,])
+```
+Below are the  species listed in the geographic area.
+
+```{r Slist Table, echo=FALSE}
+slist <- read_excel(glue("./results_tables/{table_name}"), sheet = 2)
+knitr::kable(slist)
 ```
 
-Quick Tip, if you run `bird-scanner.R` remember to either clear your results-directory folder if you run the script again to the same folder.
-
-Again, all these steps on running BirdNET on your ARU calls should be ran through the `bird-scanner.R` script provided in the <a href="https://github.com/jkauphus/Bird_Scanner"> Bird-Scanner Repository</a>.
+Again, all these steps on running BirdNET on your ARU calls should be ran through your version of the `bird-scanner.R` script that is provided in the <a href="https://github.com/jkauphus/Bird_Scanner"> Bird-Scanner Repository</a>.
 
 # 7. Check Predictions
 
-Let's say you ran BirdNET, and it predicted a species like "House finch" and you wanted to make sure that prediction was correct, here in the Bird-Scanner Workflow repository, I wrote some functions to extract a segment of the audio file when exactly in the given audio segment the model predicted the species and how to convert the audio into a spectrogram. To see how I typically run this code, in the <a href="https://github.com/jkauphus/Bird_Scanner"> Bird-Scanner Repository</a> under the `code` folder check out the `bird_checker.R` script, which will give you a tutorial of how to verify the model's predictions. So, if you want to look at just the "House Finch" calls you can extract those results.
+Let's say you ran BirdNET, and it predicted a species like "House finch" and you wanted to make sure that specific prediction was correct, here in the Bird-Scanner Workflow repository, I wrote some functions to extract a segment of the audio file when exactly in the given audio segment the model predicted the species and how to convert the audio into a spectrogram. To see how I typically run this code, in the <a href="https://github.com/jkauphus/Bird_Scanner"> Bird-Scanner Repository</a> under the `code` folder check out the `bird_checker.R` script, which will give you a template on how to verify the model's predictions. So, if you want to look at just the "House Finch" calls you can extract those results.
 
 ```{r}
 ### What species or observation do you want to verify?
 
 species <- "House Finch"
 
-# create a sub table of the calls you want to investigate, lets just take the first two entries
-verify <- results_table[1:2] %>% 
+# create a sub table of the calls you want to investigate, lets just take the first five entries
+verify <- results[1:3,] %>% 
   filter(common_name == glue("{species}"))
 ```
 
 
 Then using the `bird_verify` function I developed for this workflow, you can output the audio segments of when the model predicted "House Finch" to the `checker` folder in the repository, and quickly listen to the audio segments.
-```{r}
+```{r checker}
 # Read in the bird_verify function
 source("./code/bird_verify.R")
 # execute the function to the sub-table of house finch calls
@@ -341,15 +276,15 @@ bird_verify(verify)
 Here is the example of the audio segment of the first predicted House Finch call
 
 ```{r Verify Model, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-audio_player <- tags$audio(
-  src = "./checker/1_Haemorhous mexicanus_SMM07526_20221213_090202.wav",
+audio_player2 <- tags$audio(
+  src = "C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/checker/2_Haemorhous mexicanus_SMM07526_20221213_100202.wav",
   type = "audio/wav",
   controls = NA
 )
-audio_player
+audio_player2
 ```
 
-As you can see the model predicted correctly. If you wanted further verification, using the `bird_checker.R` script in the code folder you can output the spectrograms of the predicted audio segment using the `bird_spec` function. This function will create spectrograms for all the verify species you have aggregated and output the spectrograms in PNG files in the `spectrograms` folder of the Bird-Scanner Repository.
+As you can see the model predicted correctly. If you wanted further verification, using the `bird_checker.R` script in the code folder you can output the spectrograms of the predicted audio segment using the `bird_spec` function. This function will create spectrograms for all the species you want to verify, and output the spectrograms as PNG files in the `spectrograms` folder of the Bird-Scanner Repository.
 
 ```{r Spectrograms, echo=TRUE, message=FALSE, warning=FALSE}
 # Read in the bird_verify function
@@ -361,7 +296,7 @@ bird_spec(verify)
 
 And there is the first prediction of the house finch in a spectrogram of when the model made the prediction. Just some backrground information, the function buffers out the predicted call by one second at the start and end of the prediction, so below in the spectrogram the model identified the call at seconds 1-4s.
 
-![](spectrograms/1_Haemorhous mexicanus_SMM07526_20221213_090202.wav.png){width="350"}
+![](spectrograms/2_Haemorhous mexicanus_SMM07526_20221213_100202.wav.png){width="350"}
 
 Before you run `bird_checker.R` again, make sure to delete the wav and png files in both the `checker` and `spectrograms` folder.
 

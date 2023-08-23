@@ -3,6 +3,7 @@
 from birdnetlib.batch import DirectoryAnalyzer
 from birdnetlib.analyzer import Analyzer
 from birdnetlib.species import SpeciesList
+import os
 from datetime import datetime
 from pprint import pprint
 import pandas as pd
@@ -13,7 +14,6 @@ dir_path = args_d
 lat = args_lat
 lon = args_lon
 conf = args_threshold
-
 # Week Extraction
 
 def extract_week_from_filename(dir_path):
@@ -40,7 +40,7 @@ def on_analyze_complete(recording):
     global output_data
     for detection in recording.detections:
         detection_info = {
-            'filename': recording.path.split('/')[-1],  # Extracting filename from the path
+            'filename': os.path.basename(recording.path),  # Extracting filename from the path
             'full_path': recording.path,
             **detection  # Include existing detection data
         }
@@ -75,18 +75,25 @@ def run_analysis_and_save_excel():
     # Get the species list
     species = SpeciesList()
     species_list = species.return_list(
-        lon=-120.7463, lat=35.4244, date=datetime(year=2022, month=5, day=10)
+        lon=lon, lat=lat, date=extract_week_from_filename(dir_path)
     )
     species_df = pd.DataFrame(species_list)
 
     # Save the DataFrames to an Excel file with multiple sheets
-    excel_filename = 'output_data_with_sheets.xlsx'
+    # Get today's date in YYYY-MM-DD format
+    today_date = datetime.today().strftime('%Y-%m-%d')
     
-    with pd.ExcelWriter(excel_filename, engine='xlsxwriter') as writer:
+    # Construct the Excel file name with today's date
+    excel_filename = f'birdNET_results_{today_date}.xlsx'
+    
+    output_folder = "./results_tables/"
+    full_excel_path = os.path.join(output_folder, excel_filename)
+
+    with pd.ExcelWriter(full_excel_path, engine='xlsxwriter') as writer:
         df.to_excel(writer, sheet_name='Detections', index=False)
         species_df.to_excel(writer, sheet_name='SpeciesList', index=False)
 
-    print(f"Data saved as '{excel_filename}'")
+    print(f"Data saved as '{full_excel_path}'")
 
 # Call the function to run the analysis and save to Excel
 run_analysis_and_save_excel()
