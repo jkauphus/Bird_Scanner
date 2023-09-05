@@ -4,6 +4,7 @@
 *.txt
 *.xlsx
 /archieve
+/code/archieved_code
 /stats
 bird_scanner_working.R
 bird_checker_working.R

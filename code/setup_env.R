@@ -2,6 +2,9 @@
 
 Sys.setenv(RETICULATE_PYTHON = "C:/Users/jkauphusman/Anaconda3/envs/pybirdanalyze/python.exe")
 library(reticulate)
+library(tidyverse)
+library(openxlsx)
+library(glue)
 
 # Set-up conda env
 use_condaenv(condaenv = "pybirdanalyze", required = TRUE)
