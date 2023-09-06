@@ -21,6 +21,12 @@ data <- glue("./data")
 latitude <- 33.264587
 longitude <- -111.869099
 
+# Date Information (Should have a date for the average in the directory for the month)
+
+day <- 13
+month <- 12
+year <- 2022
+
 # Now need to import the entire filepath for the custom_model and custom_model_labels
 
 custom_model_path <- "C:/Users/jkauphusman/Desktop/Scripts/Bird_Scanner/custom_model/output.tflite"
@@ -33,6 +39,6 @@ conf <- 0.75
 #4a. Run the wav files through the Birdnet-Analyzer CNN -------------------------------------------------------------
 
 source("./code/bird_custom_analyzer.R")
-bird_custom_analyzer(data=data, latitude=latitude, longitude=longitude, 
-              custom_model_path=custom_model_path, custom_labels_path=custom_labels_path, conf=conf)
+bird_custom_analyzer(data, latitude,longitude,day, month, year,
+                     custom_model_path, custom_labels_path, conf)
 #### CHECK THE RESULTS_TABLE FOLDER ####

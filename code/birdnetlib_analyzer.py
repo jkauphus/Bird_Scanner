@@ -13,23 +13,10 @@ import pandas as pd
 dir_path = args_d
 lat = args_lat
 lon = args_lon
+day = args_day
+month = args_mon
+year = args_yr
 conf = args_threshold
-# Week Extraction
-
-def extract_week_from_filename(dir_path):
-    # Define the expected date format in the filename
-    date_format = "TEXT_%Y%m%d_%H%M%S.wav"
-    
-    try:
-        # Parse the filename using the defined date format
-        dt = datetime.strptime(dir_path, date_format)
-        
-        # Extract the week of the year using the timetuple method
-        week_of_year = dt.timetuple().tm_yday // 7 + 1
-        
-        return week_of_year
-    except ValueError:
-        return None
 
 # Load and initialize the BirdNET-Analyzer models.
 
@@ -42,6 +29,9 @@ def on_analyze_complete(recording):
         detection_info = {
             'filename': os.path.basename(recording.path),  # Extracting filename from the path
             'full_path': recording.path,
+            'latitude': lat,
+            'longitude': lon,
+            'date': datetime(year=year, month=month, day=day),
             **detection  # Include existing detection data
         }
         output_data.append(detection_info)
@@ -61,7 +51,7 @@ def run_analysis_and_save_excel():
         analyzers=[analyzer],
         lon=lon,
         lat=lat,
-        date=extract_week_from_filename(dir_path),
+        date=datetime(year=year, month=month, day=day),
         min_conf=conf,
     )
 
@@ -75,7 +65,7 @@ def run_analysis_and_save_excel():
     # Get the species list
     species = SpeciesList()
     species_list = species.return_list(
-        lon=lon, lat=lat, date=extract_week_from_filename(dir_path)
+        lon=lon, lat=lat, date=datetime(year=year, month=month, day=day)
     )
     species_df = pd.DataFrame(species_list)
 
@@ -90,6 +80,8 @@ def run_analysis_and_save_excel():
     full_excel_path = os.path.join(output_folder, excel_filename)
 
     with pd.ExcelWriter(full_excel_path, engine='xlsxwriter') as writer:
+        df['latitude'] = lat
+        df['longitude'] = lon
         df.to_excel(writer, sheet_name='Detections', index=False)
         species_df.to_excel(writer, sheet_name='SpeciesList', index=False)
 

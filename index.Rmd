@@ -337,14 +337,18 @@ data <- glue("{path}data")
 ```
 
 Now, you need to identify where your ARUs were deployed, which the
-coordinates will need to be in lat-long format. The BirdNET model will
-use these coordinates to reduce the amount of species it can use to
+coordinates will need to be in lat-long format. Following based on the average date of the time you deployed your ARUs for the season, you need to define a date. The BirdNET model will use these coordinates and datetime to reduce the amount of species it can use to
 predict based on the range data for birds identified by the Cornell Labs
 of Ornithology and eBird.
 
 ```{r Corrdinates information, echo=TRUE}
 latitude <- 33.273595
 longitude <- -111.829824
+
+# Date Information (Should have a date for the average in the directory for the month)
+day <- 13
+month <- 12
+year <- 2022
 ```
 
 Another prerequisite is to define the confidence threshold that you want
@@ -364,7 +368,7 @@ through the BirdNET Model.
 
 ```{r BirdNet Model, echo=TRUE, message=FALSE, warning=FALSE}
 source("./code/bird_analyzer.R")
-bird_analyzer(data=data, latitude=latitude, longitude=longitude, conf=conf)
+bird_analyzer(data,latitude,longitude,day, month, year, conf)
 ```
 
 If you are using this repository, the results would be saved in the
@@ -379,7 +383,7 @@ Below are the first 5 predictions from BirdNET from our Bird-feeder
 recordings.
 
 ```{r Table, echo=FALSE}
-table_name <- "birdNET_results_2023-09-05.xlsx"
+table_name <- "birdNET_results_2023-09-06.xlsx"
 results <- read_excel(glue("./results_tables/{table_name}"), sheet = 1)
 knitr::kable(results[1:5,])
 ```

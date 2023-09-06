@@ -3,12 +3,15 @@
 
 # Wrapper Function
 
-bird_analyzer <- function(data,latitude,longitude, conf){
+bird_analyzer <- function(data,latitude,longitude,day, month, year, conf){
   # Pull in the date information from the first file in the input folder
   # Import Information
   py_run_string(paste0("args_d = '", glue("{data}"), "'"))
   py_run_string(paste0("args_lat = ", latitude))
   py_run_string(paste0("args_lon = ", longitude))
+  py_run_string(paste0("args_day = ", day))
+  py_run_string(paste0("args_mon = ", month))
+  py_run_string(paste0("args_yr = ", year))
   py_run_string(paste0("args_threshold = ", conf))
   source_python("./code/birdnetlib_analyzer.py")
   as.table(return())
